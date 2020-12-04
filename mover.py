@@ -475,8 +475,9 @@ if __name__ == '__main__':
                     destination_path = os.path.join(dest_dir, n_file_name)  # PATH DESTINAZIONE (compreso il file )
                     if oldest_file_size < mover.free_space:
                         if mover.mv(oldest_file_path, destination_path):
-                            log.info("Spazio rimasto: '{}'\n".format(
-                                round(mover.free_space - oldest_file_size, 2)
+                            _, _, free_space = disk_usage_gb(configuration.get("disk", "mount_point"))
+                            log.info("Spazio rimasto: '{} GB'\n".format(
+                                round(free_space, 2)
                             ))
                             space_check = mover.check_month_folder()
                             srv_path = mover.check_month_folder()
@@ -499,7 +500,7 @@ if __name__ == '__main__':
                         "Spazio Occupato: {} GB\n"
                         "Leggere il log per maggiori informazioni".format(
                          round(free_space, 2), round(used_space, 2),
-                 ),
+                        ),
                 attach_name=log_path
             )
             sys.exit()
